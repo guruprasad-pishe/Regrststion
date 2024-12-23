@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e323c3, #45b2da);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .card {
+            background: #fff;
+            color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+            padding: 15px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registered Users</h1>
+    <div id="usersContainer"></div>
+
+    <script>
+        function displayUsers() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentUser = JSON.parse(urlParams.get('currentUser'));
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+            const usersContainer = document.getElementById('usersContainer');
+            usersContainer.innerHTML = '';
+
+            if (currentUser) {
+                const currentUserCard = document.createElement('div');
+                currentUserCard.className = 'card';
+                currentUserCard.innerHTML = `
+                    <h2>Current User</h2>
+                    <p><strong>Username:</strong> ${currentUser.username}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                `;
+                usersContainer.appendChild(currentUserCard);
+            }
+
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'card';
+                userCard.innerHTML = `
+                    <p><strong>Username:</strong> ${user.username}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                `;
+                usersContainer.appendChild(userCard);
+            });
+        }
+
+        displayUsers();
+    </script>
+</body>
+</html>

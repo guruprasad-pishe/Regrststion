@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #cf3cb6,#cd5050,#8c51d4);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fb9a4f;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            position: absolute;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            margin-left: 60px;
+            color: #fbfafa;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            box-sizing: border-box;
+            position: relative;
+            bottom: 15px;
+        }
+
+        button {
+            background-color: #66f043;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 160px;
+        }
+
+        button:hover {
+            background-color: #1a5bb8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registration Form</h1>
+        <div class="form-group">
+            <h4>Username</h4>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+            <h4>Email</h4>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <h4>Password</h4>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <div class="form-group">
+            <h4>Confirm Password</h4>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password">
+        </div>
+        <button onclick="registerUser()">Register</button>
+    </div>
+
+    <script>
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (username === '' || email === '' || password === '' || confirmPassword === '') {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            const newUser = { username, email };
+            users.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+
+            const params = new URLSearchParams({ currentUser: JSON.stringify(newUser) });
+            window.location.href = `users.html?${params.toString()}`;
+        }
+    </script>
+</body>
+</html>
